@@ -51,7 +51,7 @@ with app.app_context():
             with app.app_context():
                 db.session.rollback()
 
-        def test_list_cupcakes(self):
+        def test_get_cupcakes(self):
             with app.test_client() as client:
                 resp = client.get("/api/cupcakes")
 
@@ -70,7 +70,7 @@ with app.app_context():
                     ]
                 })
 
-        def test_get_cupcake(self):
+        def test_cupcake_details(self):
             with app.test_client() as client:
                 url = f"/api/cupcakes/{self.cupcake.id}"
                 resp = client.get(url)
@@ -87,7 +87,7 @@ with app.app_context():
                     }
                 })
 
-        def test_create_cupcake(self):
+        def test_add_cupcake(self):
             with app.test_client() as client:
                 url = "/api/cupcakes"
                 resp = client.post(url, json=CUPCAKE_DATA_2)
