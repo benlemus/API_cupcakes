@@ -1,5 +1,5 @@
 """Flask app for Cupcakes"""
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from models import db, connect_db, Cupcake
 
 
@@ -25,12 +25,7 @@ def cupcake_details(id):
 
 @app.route('/api/cupcakes', methods=['POST'])
 def add_cupcake():
-    flavor = request.json['flavor']
-    size = request.json['size']
-    rating = request.json['rating']
-    image = request.json['image']
-
-    new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
+    new_cupcake = Cupcake(**request.json)
 
     db.session.add(new_cupcake)
     db.session.commit()
@@ -56,3 +51,10 @@ def delete_cupcake(id):
     db.session.delete(cupcake)
     db.session.commit()
     return jsonify(message='deleted')
+
+
+# front-end
+
+@app.route('/')
+def home_page():
+    return render_template('home_page.html')
