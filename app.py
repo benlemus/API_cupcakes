@@ -1,6 +1,7 @@
 """Flask app for Cupcakes"""
 from flask import Flask, jsonify, request, render_template
 from models import db, connect_db, Cupcake
+from forms import NewCupcakeForm
 
 
 app = Flask(__name__)
@@ -14,7 +15,7 @@ connect_db(app)
 
 @app.route('/api/cupcakes')
 def get_cupcakes():
-    cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
+    cupcakes = Cupcake.fetchAllCupcakes()
     return jsonify(cupcakes=cupcakes)
 
 @app.route('/api/cupcakes/<int:id>')
@@ -47,10 +48,14 @@ def update_cupcake(id):
 @app.route('/api/cupcakes/<int:id>', methods=['DELETE'])
 def delete_cupcake(id):
     cupcake = Cupcake.query.get_or_404(id)
-
-    db.session.delete(cupcake)
-    db.session.commit()
+    cupcake.delete()    
     return jsonify(message='deleted')
+
+@app.route('/api/cupcakes/search/<input>')
+def search_cupcakes(input):
+    cupcakes = Cupcake.query.filter(Cupcake.flavor.ilike(f'%{input}%')).all()
+
+    return jsonify([cupcake.serialize() for cupcake in cupcakes])
 
 
 # front-end
@@ -58,3 +63,8 @@ def delete_cupcake(id):
 @app.route('/')
 def home_page():
     return render_template('home_page.html')
+
+@app.route('/add')
+def add_cupcake_page():
+    form = NewCupcakeForm()
+    return render_template('add_cupcake.html', form=form)

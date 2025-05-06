@@ -28,3 +28,12 @@ class Cupcake(db.Model):
             'rating': self.rating,
             'image': self.image
         }
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def fetchAllCupcakes(self):
+        return [cupcake.serialize() for cupcake in Cupcake.query.all()]
+    

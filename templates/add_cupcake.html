@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+  <form action="/" enctype="multipart/form-data" id="add_cupcake_form">
+    <div class="container">
+      {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+      'hidden' %}
+      <div>
+        <label for="{{field.id}}" class="form-label">{{field.label}}</label>
+        {{ field(class='form-control')}} {% for error in field.errors %}
+        <div class="form-text text-danger">{{error}}</div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <button class="btn btn-primary">Add</button>
+  </form>
+</div>
+{% endblock %}
