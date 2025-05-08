@@ -34,6 +34,6 @@ class Cupcake(db.Model):
         db.session.commit()
 
     @classmethod
-    def fetchAllCupcakes(self):
-        return [cupcake.serialize() for cupcake in Cupcake.query.all()]
+    def get_all_cupcakes(self):
+        return [cupcake.serialize() for cupcake in Cupcake.query.order_by(Cupcake.flavor).all()]
     

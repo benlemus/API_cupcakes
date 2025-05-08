@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField
 from wtforms.validators import Optional, URL
 
-class NewCupcakeForm(FlaskForm):
+class CupcakeForm(FlaskForm):
     flavor = StringField('Flavor')
 
     size = StringField('Size')

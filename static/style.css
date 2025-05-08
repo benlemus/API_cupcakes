@@ -1,0 +1,7 @@
+body {
+  overflow-y: scroll;
+}
+
+.delete_icon:hover {
+  cursor: pointer;
+}

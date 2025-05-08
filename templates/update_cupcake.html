@@ -1,8 +1,13 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container-fluid">
-  <form action="/" enctype="multipart/form-data" id="add_cupcake_form">
+<div class="container">
+  <h1 class="mb-4 mt-3">Update a Cupcake!</h1>
+  <form
+    action="/"
+    enctype="multipart/form-data"
+    id="update_cupcake_form"
+    data-id="{{cupcake.id}}"
+  >
     <div class="container">
-      <h1 class="mb-4 mt-3">Create a New Cupcake!</h1>
       {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
       'hidden' %}
       <div class="mt-4">
@@ -15,7 +20,7 @@
     </div>
 
     <div class="container d-flex justify-content-start">
-      <button class="btn btn-primary mt-4 btn-lg">Add</button>
+      <button class="btn btn-primary mt-4 btn-lg">Update</button>
       <a href="/" class="btn btn-outline-danger mt-4 ms-2 btn-lg">Cancel</a>
     </div>
   </form>
