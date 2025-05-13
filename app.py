@@ -1,9 +1,8 @@
 """Flask app for Cupcakes"""
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, url_for
 from models import db, connect_db, Cupcake
 from forms import CupcakeForm
 import requests
-
 
 app = Flask(__name__)
 
@@ -19,10 +18,11 @@ def get_cupcakes():
     cupcakes = Cupcake.get_all_cupcakes()
     return jsonify(cupcakes=cupcakes)
 
+
 @app.route('/api/cupcakes/<int:id>')
 def cupcake_details(id):
     cupcake = Cupcake.query.get_or_404(id)
-    
+        
     return jsonify(cupcake=cupcake.serialize())
 
 @app.route('/api/cupcakes', methods=['POST'])
@@ -33,6 +33,8 @@ def add_cupcake():
     db.session.commit()
 
     return (jsonify(cupcake=new_cupcake.serialize()),201)
+
+
 
 @app.route('/api/cupcakes/<int:id>', methods=['PATCH'])
 def update_cupcake(id):
@@ -70,13 +72,15 @@ def add_cupcake_page():
     form = CupcakeForm()
     return render_template('add_cupcake.html', form=form)
 
+
 @app.route('/cupcakes/<int:id>/update')
-def update_cupcake_page(id):
-    res = requests.get(f'http://localhost:5000/api/cupcakes/{id}')
+def update_cupcakes_page(id):
+    api_url = url_for('cupcake_details', id=id, _external=True)
 
+    res = requests.get(api_url)
     data = res.json()
-
     cupcake = data.get('cupcake')
-
+    
     form = CupcakeForm(data=cupcake)
+
     return render_template('update_cupcake.html', form=form, cupcake=cupcake)

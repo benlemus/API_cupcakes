@@ -115,6 +115,11 @@ function create_card(cupcake) {
   card.className = "card";
   card.setAttribute("data-cupcakeId", cupcake.id);
 
+  const imageContainer = document.createElement("div");
+  imageContainer.className = "d-flex align-items-center";
+  imageContainer.style = "min-height: 39rem";
+  imageContainer.setAttribute("data-cupcakeId", cupcake.id);
+
   const image = document.createElement("img");
   image.src = cupcake.image;
   image.className = "card-img-top";
@@ -152,7 +157,8 @@ function create_card(cupcake) {
   btnContainer.appendChild(update_btn);
 
   cardContainer.appendChild(card);
-  card.appendChild(image);
+  imageContainer.appendChild(image);
+  card.appendChild(imageContainer);
   card.appendChild(cardBody);
   cardBody.appendChild(flavor);
   cardBody.appendChild(size);

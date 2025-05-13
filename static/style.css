@@ -5,3 +5,11 @@ body {
 .delete_icon:hover {
   cursor: pointer;
 }
+
+footer {
+  height: 100px;
+}
+
+.page_title {
+  font-size: 60px;
+}

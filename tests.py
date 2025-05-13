@@ -71,6 +71,7 @@ with app.app_context():
                 })
 
         def test_cupcake_details(self):
+
             with app.test_client() as client:
                 url = f"/api/cupcakes/{self.cupcake.id}"
                 resp = client.get(url)
@@ -86,6 +87,12 @@ with app.app_context():
                         "image": "http://test.com/cupcake.jpg"
                     }
                 })
+
+        def test_cupcake_details_404(self):
+            with app.test_client() as client:
+                resp = client.get('/api/cupcakes/aaa')
+
+                self.assertEqual(resp.status_code, 404)
 
         def test_add_cupcake(self):
             with app.test_client() as client:
@@ -136,6 +143,21 @@ with app.app_context():
                     }
                 })
 
+        def test_update_cupcake_404(self):
+            with app.test_client() as client:
+                url = f'/api/cupcakes/aaa'
+                resp = client.patch(url, json={
+                    'id': self.id,
+                    'flavor': self.flavor,
+                    'size': 'TestSizePatch',
+                    'rating': self.rating,
+                    'image': self.image
+                })
+
+                self.assertEqual(resp.status_code, 404)
+
+
+
         def test_delete_cupcake(self):
             with app.test_client() as client:
                 resp = client.delete(f'/api/cupcakes/{self.id}')
@@ -145,3 +167,9 @@ with app.app_context():
                 self.assertEqual(data, {
                     'message': 'deleted'
                 })
+
+        def test_delete_cupcake_404(self):
+            with app.test_client() as client:
+                resp = client.delete(f'/api/cupcakes/aaa')
+
+                self.assertEqual(resp.status_code, 404)
